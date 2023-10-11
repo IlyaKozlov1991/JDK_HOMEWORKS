@@ -32,6 +32,8 @@ public class ChatWindow extends JFrame {
         outputText.setPreferredSize(new Dimension((int) (WIDTH * 0.9), HEIGHT / 3));
         outputText.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
         outputText.setLineWrap(true);
+        outputText.setEditable(false);
+        outputText.setForeground(Color.GREEN);
         chatPanel.add(outputText);
 
         buttonsPanel = new JPanel(new GridLayout(2, 0));
