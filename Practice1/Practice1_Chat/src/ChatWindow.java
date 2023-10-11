@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class ChatWindow extends JFrame {
     private static final int WIDTH = 700;
@@ -43,8 +45,12 @@ public class ChatWindow extends JFrame {
         inputText.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-                    sendByKeyEnter();
+                if (!inputText.getText().isBlank()) {
+                    if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+                        sendByKeyEnter();
+                    }
+                } else {
+                    inputText.setText("");
                 }
             }
         });
@@ -65,7 +71,9 @@ public class ChatWindow extends JFrame {
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                sendByButton();
+                if (!inputText.getText().isEmpty()) {
+                    sendByButton();
+                }
             }
         });
 
@@ -85,14 +93,16 @@ public class ChatWindow extends JFrame {
     }
 
     private void sendByButton() {
-        outputText.append(USER + ": " + inputText.getText() + System.lineSeparator());
+        String time = LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm"));
+        outputText.append(time + ": "+ USER + ": " + inputText.getText() + System.lineSeparator());
         inputText.setText("");
-        outputText.append(HOST + ": ВОТ МОЙ ОТВЕТ\n" + System.lineSeparator());
+        outputText.append(time + ": "+ HOST + ": ВОТ МОЙ ОТВЕТ\n" + System.lineSeparator());
     }
 
     private void sendByKeyEnter() {
-        outputText.append(USER + ": " + inputText.getText());
+        String time = LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm"));
+        outputText.append(time + ": "+ USER + ": " + inputText.getText());
         inputText.setText("");
-        outputText.append(HOST + ": ВОТ МОЙ ОТВЕТ\n" + System.lineSeparator());
+        outputText.append(time + ": "+ HOST + ": ВОТ МОЙ ОТВЕТ\n" + System.lineSeparator());
     }
 }
